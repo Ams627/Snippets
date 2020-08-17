@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>  
+<CodeSnippets  
+    xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">  
+    <CodeSnippet Format="1.0.0">  
+        <Header>  
+            <Title>Check for program arguments</Title>
+	    <ShortCut>runproc</ShortCut>  
+        </Header>  
+        <Snippet>  
+            <Code Language="CSharp"><![CDATA[var procInfo = new ProcessStartInfo
+{
+    Arguments = "log master",
+    FileName = "git.exe",
+    RedirectStandardOutput = true,
+    RedirectStandardError = true,
+    UseShellExecute = false
+};
+
+var process = new Process
+{
+    StartInfo = procInfo
+};
+
+var sbOut = new StringBuilder();
+var sbError = new StringBuilder();
+process.OutputDataReceived += (s, e) => { sbOut.AppendLine(e.Data); };
+process.ErrorDataReceived += (s, e) => { sbError.AppendLine(e.Data); };
+process.BeginOutputReadLine();
+process.BeginErrorReadLine();
+process.WaitForExit();$end$]]>
+	    </Code>
+	    <Imports>
+	      <Import>
+	        <Namespace>System.Text</Namespace>
+	      </Import>
+	      <Import>
+	        <Namespace>System.Diagnostics</Namespace>
+	      </Import>
+	    </Imports>
+        </Snippet>  
+    </CodeSnippet>  
+</CodeSnippets>  

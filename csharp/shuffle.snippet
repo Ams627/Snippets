@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>  
+<CodeSnippets  
+    xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">  
+    <CodeSnippet Format="1.0.0">  
+        <Header>  
+            <Title>Fisher Yates Shuffle</Title>
+	    <ShortCut>shuffle</ShortCut>  
+        </Header>  
+        <Snippet>  
+            <Code Language="CSharp"><![CDATA[public static void Shuffle<T>(IList<T> list)
+{
+    var rnd = new Random();
+
+    for (int i = list.Count() - 1; i > 0; i--)
+    {
+        // random from zero to i:
+        var j = rnd.Next(i + 1);
+
+        // swap:
+        var temp = list[i];
+        list[i] = list[j];
+        list[j] = temp;
+    }
+}$end$]]>
+	    </Code>
+        </Snippet>  
+    </CodeSnippet>  
+</CodeSnippets>  

@@ -1,0 +1,22 @@
+= Visual Studio Code Snippets
+
+== C#
+
+|===
+| arg.snippet          | Check for at least one program argument (`if (args.Any()...`)
+| dist.snippet         | Initialise and start a `DispatcherTimer`
+| dt.snippet           | `DispatcherTimer`
+| dw.snippet           | `Debug.Writeline`
+| ff.snippet           | Find files. Add a `class Finder` that uses recursion to find files in a file system tree.
+| file.snippet         | Insert `foreach` loop to read a file line-by-line: `foreach (var line in File.ReadAllLines(filename))...`
+| fw.snippet           | Insert `.Foreach(Console.WriteLine);`
+| inpc.snippet         | Insert `INotifyPropertyChanged`.
+| lfe.snippet          | Insert `list.ForEach(x=>Console.WriteLine($"{x}"))`
+| lic.snippet          | `Add license info`
+| nxd.snippet          | Insert `new XDocument(`
+| outs.snippet         | Write to a text file using `StreamWriter(outFilename)`
+| shuffle.snippet      | Insert a Fisher-Yates Shuffle
+| tne.snippet          | Insert `throw new Exception($"")`
+| tpe.snippet          | Insert `DateTime.TryParseExact...`
+| us.snippet           |
+|===
