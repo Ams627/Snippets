@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>  
+<CodeSnippets  
+    xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">  
+    <CodeSnippet Format="1.0.0">  
+        <Header>  
+            <Title>Get DataTable from Sql Query</Title>
+	    <ShortCut>sqlqu</ShortCut>  
+        </Header>  
+        <Snippet>  
+            <Code Language="CSharp"><![CDATA[public static List<List<object>> GetResults(string server, string dbName, string sql, SqlParameter[] sqlParams)
+        {
+            var builder = new SqlConnectionStringBuilder
+            {
+                DataSource = server,
+                InitialCatalog = dbName,
+                IntegratedSecurity = true
+            };
+
+            var list = new List<List<object>>();
+            using (var connection = new SqlConnection(builder.ToString()))
+            using (var command = new SqlCommand(sql, connection))
+            {
+                connection.Open();
+                command.Parameters.AddRange(sqlParams);
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var innerList = new List<object>();
+                        list.Add(innerList);
+
+                        for (int i = 0; i < reader.FieldCount; i++)
+                        {
+                            innerList.Add(reader[i]);
+                        }
+                    }
+                }
+            }
+            return list;
+        }
+
+        void TestGetResults()
+        {
+            var results = GetResults(@"(localdb)\db1", "db1a", "select * from t1 where Name=@Name", new[] { new SqlParameter("Name", "One") });
+            foreach (var i in results)
+            {
+                var line = string.Join(" ", i);
+                Console.WriteLine($$"{line}");
+            }
+        }
+$end$]]>
+	    </Code>
+        <Imports>
+          <Import>
+            <Namespace>System</Namespace>
+          </Import>
+          <Import>
+            <Namespace>System.Collections.Generic</Namespace>
+          </Import>
+          <Import>
+            <Namespace>System.Data.SqlClient</Namespace>
+          </Import>
+        </Imports>
+        </Snippet>  
+    </CodeSnippet>  
+</CodeSnippets>  

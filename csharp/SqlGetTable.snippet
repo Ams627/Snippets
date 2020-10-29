@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>  
+<CodeSnippets  
+    xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">  
+    <CodeSnippet Format="1.0.0">  
+        <Header>  
+            <Title>Get DataTable from Sql Query</Title>
+	    <ShortCut>sqltab</ShortCut>  
+        </Header>  
+        <Snippet>  
+            <Code Language="CSharp"><![CDATA[public static DataTable GetTable(string server, string dbName, string sql, SqlParameter[] sqlParams)
+        {
+            var builder = new SqlConnectionStringBuilder
+            {
+                DataSource = server,
+                InitialCatalog = dbName,
+                IntegratedSecurity = true
+            };
+
+            using (var connection = new SqlConnection(builder.ToString()))
+            using (var command = new SqlCommand(sql, connection))
+            {
+                connection.Open();
+                command.Parameters.AddRange(sqlParams);
+                var adapter = new SqlDataAdapter(command);
+                var dataTable = new DataTable();
+                adapter.Fill(dataTable);
+                return dataTable;
+            }
+        }
+
+        private static void TestGetTable()
+        {
+            var table = GetTable(@"(localdb)\db1", "db1a", "select * from t1 where Name=@Name", new[] { new SqlParameter("Name", "One") });
+            foreach (DataRow row in table.Rows)
+            {
+                foreach (var col in row.ItemArray)
+                {
+                    Console.WriteLine($$"{col}");
+                }
+            }
+        }$end$]]>
+	    </Code>
+        <Imports>
+          <Import>
+            <Namespace>System</Namespace>
+          </Import>
+          <Import>
+            <Namespace>System.Data</Namespace>
+          </Import>
+          <Import>
+            <Namespace>System.Data.SqlClient</Namespace>
+          </Import>
+        </Imports>
+        </Snippet>  
+    </CodeSnippet>  
+</CodeSnippets>  

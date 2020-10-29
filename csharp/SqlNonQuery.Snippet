@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>  
+<CodeSnippets  
+    xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">  
+    <CodeSnippet Format="1.0.0">  
+        <Header>  
+            <Title>Run SQL non-query</Title>
+	    <ShortCut>sqlnon</ShortCut>  
+        </Header>  
+        <Snippet>  
+            <Code Language="CSharp"><![CDATA[public static int SqlNonQuery(string server, string dbName, string sql, SqlParameter[] sqlParams)
+        {
+            var builder = new SqlConnectionStringBuilder
+            {
+                DataSource = server,
+                InitialCatalog = dbName,
+                IntegratedSecurity = true
+            };
+
+            using (var connection = new SqlConnection(builder.ToString()))
+            using (var command = new SqlCommand(sql, connection))
+            {
+                connection.Open();
+                command.Parameters.AddRange(sqlParams);
+                return command.ExecuteNonQuery();
+            }
+        }
+
+        // test function - remove it as you will not need it!
+        private static void TestNonQuery()
+        {
+            var nq = $$@"DECLARE @sql nvarchar(500)
+                        SET @sql = Convert(nvarchar(500), CONCAT('CREATE TABLE ', @tablename, '(id int)'))
+                        exec sp_executesql  @sql";
+
+            var result = SqlNonQuery(@"(localdb)\db1", "db1a", nq, new [] {new SqlParameter("tablename", "Mytable001e") });
+        }$end$]]>
+	    </Code>
+        <Imports>
+          <Import>
+            <Namespace>System</Namespace>
+          </Import>
+          <Import>
+            <Namespace>System.Data.SqlClient</Namespace>
+          </Import>
+        </Imports>
+        </Snippet>  
+    </CodeSnippet>  
+</CodeSnippets>  
