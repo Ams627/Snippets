@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>  
+<CodeSnippets  
+    xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">  
+    <CodeSnippet Format="1.0.0">  
+        <Header>  
+            <Title>Recursive Dir</Title>
+	    <ShortCut>fstack</ShortCut>  
+        </Header>  
+        <Snippet>  
+            <Code Language="CSharp"><![CDATA[private static List<string> GetFiles(string startDir, string pattern)
+{
+    var result = new List<string>();
+    var dirStack = new Stack<string>();
+    dirStack.Push(startDir);
+
+    while (dirStack.Any())
+    {
+        var dir = dirStack.Pop();
+        var files = Directory.GetFiles(dir, pattern);
+        result.AddRange(files);
+
+        var subDirs = Directory.GetDirectories(dir);
+        foreach (var subDir in subDirs)
+        {
+            dirStack.Push(subDir);
+        }
+    }
+    return result;
+}]]>
+	    </Code>  
+        </Snippet>  
+    </CodeSnippet>  
+</CodeSnippets>  

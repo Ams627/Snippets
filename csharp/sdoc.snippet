@@ -1,0 +1,40 @@
+﻿<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet" Hello="World">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>SaveXml</Title>
+      <ShortCut>sdoc</ShortCut>
+    </Header>
+    <Snippet>
+      <Imports>
+        <Import>
+          <Namespace>System.Text</Namespace>
+        </Import>
+        <Import>
+          <Namespace>System.Xml</Namespace>
+        </Import>
+        <Import>
+          <Namespace>System.Xml.Linq</Namespace>
+        </Import>
+      </Imports>
+      <Code Language="CSharp"><![CDATA[private static void SaveDocument(string filename, XDocument document)
+{
+    var settings = new XmlWriterSettings
+    {
+        Encoding = new UTF8Encoding(false),
+        OmitXmlDeclaration = true,
+        Indent = true,
+        IndentChars = "  ",
+        NewLineChars = Environment.NewLine
+    };
+
+    using var writer = new StreamWriter(filename, false, settings.Encoding);
+
+    using (var xmlWriter = XmlWriter.Create(writer, settings))
+        document.Save(xmlWriter);
+
+    writer.Write(Environment.NewLine);
+    writer.Write(Environment.NewLine);
+}$end$]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>
